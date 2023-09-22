@@ -148,7 +148,7 @@ trait base {
   final def enumerationGet[E <: Enumeration](e: E): Get[E#Value] =
     Get.tryOrMessage(
       field => Try(e.withName(field.x)),
-      field => s"Failed to decode Enumeration $e: Received Field $field"
+      field => s"Failed to decode Enumeration $e:  Received Field $field"
     )
   final def enumerationPut[E <: Enumeration]: Put[E#Value] = stringPut.contramap(_.toString)
 
