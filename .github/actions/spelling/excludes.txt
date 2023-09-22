@@ -8,7 +8,6 @@
 (?:^|/)pyproject.toml
 (?:^|/)requirements(?:-dev|-doc|-test|)\.txt$
 (?:^|/)vendor/
-ignore$
 \.a$
 \.ai$
 \.all-contributorsrc$
@@ -80,4 +79,7 @@ ignore$
 \.xz$
 \.zip$
 ^\.github/actions/spelling/
+^\Q.github/actions/secret-scanner/excluded_secrets.patterns\E$
 ^\Q.github/workflows/spelling.yml\E$
+^\Q.secrets.baseline\E$
+ignore$

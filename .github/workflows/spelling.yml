@@ -107,6 +107,9 @@ jobs:
         extra_dictionary_limit: 20
         extra_dictionaries:
           cspell:software-terms/dict/softwareTerms.txt
+          cspell:filetypes/filetypes.txt
+          cspell:python/src/python/python-lib.txt
+          cspell:scala/dict/scala.txt
 
   update:
     name: Update PR
