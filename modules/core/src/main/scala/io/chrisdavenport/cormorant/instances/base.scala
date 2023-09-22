@@ -2,8 +2,9 @@ package io.chrisdavenport.cormorant.instances
 
 import cats.syntax.all._
 import io.chrisdavenport.cormorant._
-import scala.util.Try
 
+import java.lang
+import scala.util.Try
 import java.util.UUID
 
 trait base {
@@ -23,7 +24,7 @@ trait base {
   )
   implicit val boolPut: Put[Boolean] = stringPut.contramap(_.toString)
 
-  implicit val javaBoolGet = boolGet.map(java.lang.Boolean.valueOf)
+  implicit val javaBoolGet: Get[lang.Boolean] = boolGet.map(java.lang.Boolean.valueOf)
   implicit val javaBoolPut: Put[java.lang.Boolean] = boolPut.contramap(_.booleanValue())
 
   implicit val charGet: Get[Char] = new Get[Char] {
@@ -116,34 +117,39 @@ trait base {
   )
   implicit val uuidPut: Put[UUID] = stringPut.contramap(_.toString)
 
-  implicit def optionGet[A: Get]: Get[Option[A]] = new Get[Option[A]] {
-    def get(field: CSV.Field): Either[Error.DecodeFailure, Option[A]] =
-      if (field.x == "") Right(Option.empty[A])
-      else Get[A].map[Option[A]](a => Some(a)).get(field)
-  }
-  implicit def optionPut[A](implicit P: Put[A]): Put[Option[A]] = new Put[Option[A]] {
-    def put(a: Option[A]): CSV.Field = a.fold(CSV.Field(""))(a => P.put(a))
-  }
+  implicit def optionGet[A: Get]: Get[Option[A]] =
+    new Get[Option[A]] {
+      def get(field: CSV.Field): Either[Error.DecodeFailure, Option[A]] =
+        if (field.x == "") Right(Option.empty[A])
+        else Get[A].map[Option[A]](a => Some(a)).get(field)
+    }
+  implicit def optionPut[A](implicit P: Put[A]): Put[Option[A]] =
+    new Put[Option[A]] {
+      def put(a: Option[A]): CSV.Field = a.fold(CSV.Field(""))(a => P.put(a))
+    }
 
   /**
    * Get for Either, favors the Right get if successful
-    **/
-  implicit def eitherGet[A: Get, B: Get]: Get[Either[A, B]] = new Get[Either[A, B]] {
-    def get(field: CSV.Field): Either[Error.DecodeFailure, Either[A, B]] =
-      (Get[A].get(field), Get[B].get(field)) match {
-        case (_, Right(b)) => Either.right(Either.right(b))
-        case (Right(a), _) => Either.right(Either.left(a))
-        case (Left(e1), Left(e2)) => Either.left(e1 |+| e2)
-      }
-  }
-  implicit def eitherPut[A: Put, B: Put]: Put[Either[A, B]] = new Put[Either[A, B]] {
-    def put(a: Either[A, B]): CSV.Field = a.fold(Put[A].put, Put[B].put)
-  }
+   */
+  implicit def eitherGet[A: Get, B: Get]: Get[Either[A, B]] =
+    new Get[Either[A, B]] {
+      def get(field: CSV.Field): Either[Error.DecodeFailure, Either[A, B]] =
+        (Get[A].get(field), Get[B].get(field)) match {
+          case (_, Right(b)) => Either.right(Either.right(b))
+          case (Right(a), _) => Either.right(Either.left(a))
+          case (Left(e1), Left(e2)) => Either.left(e1 |+| e2)
+        }
+    }
+  implicit def eitherPut[A: Put, B: Put]: Put[Either[A, B]] =
+    new Put[Either[A, B]] {
+      def put(a: Either[A, B]): CSV.Field = a.fold(Put[A].put, Put[B].put)
+    }
 
-  final def enumerationGet[E <: Enumeration](e: E): Get[E#Value] = Get.tryOrMessage(
-    field => Try(e.withName(field.x)),
-    field => s"Failed to decode Enumeration $e: Received Field $field"
-  )
+  final def enumerationGet[E <: Enumeration](e: E): Get[E#Value] =
+    Get.tryOrMessage(
+      field => Try(e.withName(field.x)),
+      field => s"Failed to decode Enumeration $e: Received Field $field"
+    )
   final def enumerationPut[E <: Enumeration]: Put[E#Value] = stringPut.contramap(_.toString)
 
 }
