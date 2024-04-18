@@ -6,17 +6,13 @@ trait put {
 
   implicit class putOps[A](a: A) {
 
-    /**
-      * Facilitates the transformation of any `A` with a `Put`
-      * instance into a field
+    /** Facilitates the transformation of any `A` with a `Put` instance into a
+      * field
       *
-      * @example {{{
-      * //Before
-      * Put[String].put("hello")
+      * @example
+      *   {{{ //Before Put[String].put("hello")
       *
-      * //After
-      * "Hello".field
-      * }}}
+      * //After "Hello".field }}}
       */
     def field(implicit P: Put[A]): CSV.Field = P.put(a)
 

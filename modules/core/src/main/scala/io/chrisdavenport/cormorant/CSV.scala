@@ -5,13 +5,13 @@ import cats.data._
 sealed trait CSV
 object CSV {
   final case class Complete(headers: Headers, rows: Rows) extends CSV {
-    def stripTrailingRow: Complete = 
+    def stripTrailingRow: Complete =
       this.copy(rows = rows.stripTrailingRow)
   }
   final case class Rows(rows: List[Row]) extends CSV {
     def stripTrailingRow: Rows = {
       val initial: List[Row] = rows match {
-        case Nil => Nil
+        case Nil   => Nil
         case other => other.init
       }
       Rows(initial)

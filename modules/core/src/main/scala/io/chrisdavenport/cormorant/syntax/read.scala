@@ -7,7 +7,8 @@ trait read {
     def readRow[A: Read]: Either[Error.DecodeFailure, A] = Decoding.readRow(csv)
   }
   implicit class readRows(csv: CSV.Rows) {
-    def readRows[A: Read]: List[Either[Error.DecodeFailure, A]] = Decoding.readRows(csv)
+    def readRows[A: Read]: List[Either[Error.DecodeFailure, A]] =
+      Decoding.readRows(csv)
   }
 
   implicit class readComplete(csv: CSV.Complete) {

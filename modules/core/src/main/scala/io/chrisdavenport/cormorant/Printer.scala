@@ -37,21 +37,32 @@ object Printer {
           case CSV.Field(text) =>
             escapedAsNecessary(
               text,
-              Set(columnSeperator, rowSeperator, escape, surround) ++ additionalEscapes,
+              Set(
+                columnSeperator,
+                rowSeperator,
+                escape,
+                surround
+              ) ++ additionalEscapes,
               escape,
               surround
             )
           case CSV.Header(text) =>
             escapedAsNecessary(
               text,
-              Set(columnSeperator, rowSeperator, escape, surround) ++ additionalEscapes,
+              Set(
+                columnSeperator,
+                rowSeperator,
+                escape,
+                surround
+              ) ++ additionalEscapes,
               escape,
               surround
             )
-          case CSV.Row(xs) => xs.map(print).intercalate(columnSeperator)
+          case CSV.Row(xs)     => xs.map(print).intercalate(columnSeperator)
           case CSV.Headers(xs) => xs.map(print).intercalate(columnSeperator)
-          case CSV.Rows(xs) => xs.map(print).intercalate(rowSeperator)
-          case CSV.Complete(headers, body) => print(headers) + rowSeperator + print(body)
+          case CSV.Rows(xs)    => xs.map(print).intercalate(rowSeperator)
+          case CSV.Complete(headers, body) =>
+            print(headers) + rowSeperator + print(body)
         }
 
       override val rowSeparator: String = rowSeperator

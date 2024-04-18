@@ -11,32 +11,43 @@ object Cursor {
 
   def atHeader(header: CSV.Header)(
       headers: CSV.Headers,
-      row: CSV.Row): Either[Error.DecodeFailure, CSV.Field] = {
+      row: CSV.Row
+  ): Either[Error.DecodeFailure, CSV.Field] = {
     optionIndexOf(headers.l.toList)(header)
       .fold[Either[Error.DecodeFailure, Int]](
-        Either.left(Error.DecodeFailure.single(
-          s"Header $header not present in header: $headers for row: $row"))
+        Either.left(
+          Error.DecodeFailure.single(
+            s"Header $header not present in header: $headers for row: $row"
+          )
+        )
       )(Either.right)
       .flatMap(i => atIndex(row, i))
   }
 
-  def atIndex(row: CSV.Row, index: Int): Either[Error.DecodeFailure, CSV.Field] = {
-    row.l
-      .toList
+  def atIndex(
+      row: CSV.Row,
+      index: Int
+  ): Either[Error.DecodeFailure, CSV.Field] = {
+    row.l.toList
       .drop(index)
       .headOption
       .fold(
         Either.left[Error.DecodeFailure, CSV.Field](
-          Error.DecodeFailure.single(s"Index $index not present in row: $row "))
+          Error.DecodeFailure.single(s"Index $index not present in row: $row ")
+        )
       )(Either.right[Error.DecodeFailure, CSV.Field])
   }
 
   def decodeAtHeader[A: Get](
-      header: CSV.Header)(headers: CSV.Headers, row: CSV.Row): Either[Error.DecodeFailure, A] =
+      header: CSV.Header
+  )(headers: CSV.Headers, row: CSV.Row): Either[Error.DecodeFailure, A] =
     atHeader(header)(headers, row)
       .flatMap(Get[A].get(_))
 
-  def decodeAtIndex[A: Get](row: CSV.Row, index: Int): Either[Error.DecodeFailure, A] =
+  def decodeAtIndex[A: Get](
+      row: CSV.Row,
+      index: Int
+  ): Either[Error.DecodeFailure, A] =
     atIndex(row, index)
       .flatMap(Get[A].get(_))
 }
