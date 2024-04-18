@@ -10,8 +10,10 @@ class AutoSpec extends munit.FunSuite {
   test("encode a row with Write automatically") {
     case class Example(i: Int, s: String, b: Int)
 
-    val encoded = Example(1,"Hello",73).writeRow
-    val expected = CSV.Row(NonEmptyList.of(CSV.Field("1"), CSV.Field("Hello"), CSV.Field("73")))
+    val encoded = Example(1, "Hello", 73).writeRow
+    val expected = CSV.Row(
+      NonEmptyList.of(CSV.Field("1"), CSV.Field("Hello"), CSV.Field("73"))
+    )
     assertEquals(encoded, expected)
   }
 
@@ -20,15 +22,25 @@ class AutoSpec extends munit.FunSuite {
 
     val encoded = List(Example(1, Option("Hello"), 73)).writeComplete
     val expected = CSV.Complete(
-      CSV.Headers(NonEmptyList.of(CSV.Header("i"), CSV.Header("s"), CSV.Header("b"))),
-      CSV.Rows(List(CSV.Row(NonEmptyList.of(CSV.Field("1"), CSV.Field("Hello"), CSV.Field("73")))))
+      CSV.Headers(
+        NonEmptyList.of(CSV.Header("i"), CSV.Header("s"), CSV.Header("b"))
+      ),
+      CSV.Rows(
+        List(
+          CSV.Row(
+            NonEmptyList.of(CSV.Field("1"), CSV.Field("Hello"), CSV.Field("73"))
+          )
+        )
+      )
     )
     assertEquals(encoded, expected)
   }
 
   test("read a row with read automatically") {
     case class Example(i: Int, s: Option[String], b: Int)
-    val from = CSV.Row(NonEmptyList.of(CSV.Field("1"), CSV.Field("Hello"), CSV.Field("73")))
+    val from = CSV.Row(
+      NonEmptyList.of(CSV.Field("1"), CSV.Field("Hello"), CSV.Field("73"))
+    )
     val expected = Example(1, Some("Hello"), 73)
     assertEquals(from.readRow[Example], Right(expected))
   }
@@ -40,8 +52,16 @@ class AutoSpec extends munit.FunSuite {
 
     // Notice That the order is different than the example above
     val fromCSV = CSV.Complete(
-      CSV.Headers(NonEmptyList.of(CSV.Header("b"), CSV.Header("s"), CSV.Header("i"))),
-      CSV.Rows(List(CSV.Row(NonEmptyList.of(CSV.Field("73"), CSV.Field("Hello"), CSV.Field("1")))))
+      CSV.Headers(
+        NonEmptyList.of(CSV.Header("b"), CSV.Header("s"), CSV.Header("i"))
+      ),
+      CSV.Rows(
+        List(
+          CSV.Row(
+            NonEmptyList.of(CSV.Field("73"), CSV.Field("Hello"), CSV.Field("1"))
+          )
+        )
+      )
     )
 
     val expected = List(Example(1, Option("Hello"), 73)).map(Either.right)

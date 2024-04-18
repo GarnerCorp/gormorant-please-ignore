@@ -8,6 +8,6 @@ Everyone is expected to follow the [Scala Code of Conduct] when discussing the p
 
 Any questions, concerns, or moderation requests please contact a member of the project.
 
-- [Christopher Davenport](mailto:chris@christopherdavenport.tech)
+- [Garner](mailto:gormorant@opensource.garnercorp.com)
 
 [Scala Code of Conduct]: https://www.scala-lang.org/conduct/

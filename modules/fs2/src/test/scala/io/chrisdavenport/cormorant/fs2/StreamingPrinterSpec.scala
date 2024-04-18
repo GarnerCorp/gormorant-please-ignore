@@ -72,7 +72,11 @@ class StreamingPrinterSuite
     implicit val L: LabelledWrite[Foo] = new LabelledWrite[Foo] {
       override def headers: CSV.Headers =
         CSV.Headers(
-          NonEmptyList.of(CSV.Header("Color"), CSV.Header("Food"), CSV.Header("Number"))
+          NonEmptyList.of(
+            CSV.Header("Color"),
+            CSV.Header("Food"),
+            CSV.Header("Number")
+          )
         )
 
       override def write(a: Foo): CSV.Row =

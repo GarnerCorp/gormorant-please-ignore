@@ -10,8 +10,8 @@ sealed trait Error extends Exception {
   final override def getMessage: String = toString
   override def toString: String = this match {
     case Error.DecodeFailure(failure) => s"DecodeFailure($failure)"
-    case Error.ParseFailure(reason) => s"ParseFailure($reason)"
-    case Error.PrintFailure(reason) => s"PrintFailure($reason)"
+    case Error.ParseFailure(reason)   => s"ParseFailure($reason)"
+    case Error.PrintFailure(reason)   => s"PrintFailure($reason)"
   }
 }
 object Error {
@@ -23,7 +23,9 @@ object Error {
 
   final case class DecodeFailure(failure: NonEmptyList[String]) extends Error
   object DecodeFailure {
-    def single(reason: String): DecodeFailure = DecodeFailure(NonEmptyList.of(reason))
+    def single(reason: String): DecodeFailure = DecodeFailure(
+      NonEmptyList.of(reason)
+    )
     implicit val decodeFailureSemigroup: Semigroup[DecodeFailure] = {
       new Semigroup[DecodeFailure] {
         def combine(x: DecodeFailure, y: DecodeFailure): DecodeFailure =

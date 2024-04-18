@@ -1,0 +1,36 @@
+name: CI
+# If you update paths, make sure to update them in ci.yml as well
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - .github/actions
+      - "README.md"
+  pull_request:
+    paths:
+      - .github/actions
+      - "README.md"
+
+permissions:
+  contents: read
+
+env:
+  REPOSITORY: "gcr.io/helical-crowbar-220917"
+  PROJECT_ID: "helical-crowbar-220917"
+  PLATFORMS: "linux/amd64"
+  prometheus_java_agent_version: 0.12.0
+  NEXUS_USER: "jenkins"
+  NEXUS_PASSWORD: "${{ secrets.NEXUS_PASSWORD }}"
+
+jobs:
+  ready-to-merge:
+    name: Ready to merge
+    runs-on: ubuntu-latest
+    permissions:
+      contents: none
+    steps:
+      - name: Stub gormorant Build
+        run: |
+          echo "Files outside of the gormorant workflow have changed. This workflow has an equivalently named required check for those files,
+          so this one exists to pass that check in the case that none of those files were changed."

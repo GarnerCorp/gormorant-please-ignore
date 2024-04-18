@@ -17,12 +17,16 @@ object Get {
       Either.right(f(field))
   }
 
-  def tryOrMessage[A](f: CSV.Field => Try[A], failedMessage: CSV.Field => String): Get[A] =
+  def tryOrMessage[A](
+      f: CSV.Field => Try[A],
+      failedMessage: CSV.Field => String
+  ): Get[A] =
     new Get[A] {
       def get(field: CSV.Field): Either[Error.DecodeFailure, A] =
         f(field).toOption
           .fold[Either[Error.DecodeFailure, A]](
-            Either.left(Error.DecodeFailure.single(failedMessage(field))))(x => Either.right(x))
+            Either.left(Error.DecodeFailure.single(failedMessage(field)))
+          )(x => Either.right(x))
     }
 
   implicit val getFunctor: Functor[Get] = new Functor[Get] {
