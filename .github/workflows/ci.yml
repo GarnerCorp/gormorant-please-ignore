@@ -28,7 +28,7 @@ concurrency:
 jobs:
   build:
     name: Build Project
-    runs-on: ubuntu-latest-8cpu
+    runs-on: ubuntu-latest
     steps:
       - name: Build w/ sbt
         if: github.ref_name != 'master'
