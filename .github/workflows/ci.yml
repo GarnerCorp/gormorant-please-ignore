@@ -17,10 +17,12 @@ permissions:
 
 env:
     REPOSITORY: "gcr.io/helical-crowbar-220917"
+    IMAGE_NAME: "gormorant"
     PROJECT_ID: "helical-crowbar-220917"
     PLATFORMS: "linux/amd64"
     prometheus_java_agent_version: 0.12.0
     PR_NUMBER: ${{ github.event.pull_request.number || github.ref_name }}
+    COMMIT_SHA: "${{ github.event.pull_request.head.sha || github.sha }}"
     NEXUS_USER: "jenkins"
     NEXUS_PASSWORD: "${{ secrets.NEXUS_PASSWORD }}"
 
@@ -38,8 +40,8 @@ jobs:
               with:
                 maven-username: ${{ env.NEXUS_USER }}
                 maven-password: ${{ env.NEXUS_PASSWORD }}
-                copy-prometheus-to: lighthouse-jobs
-                jars-to-simplify: lighthouse-jobs
+                copy-prometheus-to: gormorant
+                jars-to-simplify: gormorant
                 prometheus-url: https://nexus.garnercorp.com/repository/raw/jmx_prometheus_javaagent-${{ env.prometheus_java_agent_version }}.jar
                 build-script: scripts/build-scala-ci.sh
                 build-script-args: ${{ env.PR_NUMBER }}
@@ -52,4 +54,4 @@ jobs:
               with:
                 container-project: ${{ env.PROJECT_ID }}
                 platforms: ${{ env.PLATFORMS }}
-                working-directory: "lighthouse-jobs"
+                working-directory: "gormorant"
