@@ -31,7 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Build w/ sbt
-        if: github.ref_name != 'master'
+        if: github.ref_name != 'main'
         uses: garnercorp/build-actions/scala@main
         with:
           maven-username: ${{ env.NEXUS_USER }}
@@ -42,7 +42,7 @@ jobs:
 
       - name: Publish
         uses: garnercorp/build-actions/scala@main
-        if: github.ref_name == 'master'
+        if: github.ref_name == 'main'
         with:
           maven-username: ${{ env.NEXUS_USER }}
           maven-password: ${{ env.NEXUS_PASSWORD }}
