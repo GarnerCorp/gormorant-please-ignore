@@ -13,6 +13,7 @@ davenverse
 Defn
 Delims
 dquote
+Dsbt
 Folat
 garnercorp
 GCLOUD
@@ -26,6 +27,7 @@ jenkins
 labelledread
 labelledwrite
 mergify
+Metaspace
 microsite
 munit
 nel
@@ -47,5 +49,8 @@ typelevel
 uncons
 workflows
 writelabelled
+Xms
+Xmx
+Xss
 yyy
 zzz
