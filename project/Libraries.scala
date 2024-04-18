@@ -16,17 +16,18 @@ object Libraries {
 
   val AttoCore = "org.tpolecat" %% "atto-core" % AttoCoreVersion
 
-  val fs2Core = "co.fs2"   %% "fs2-core" % fs2Version
-  val fs2IOTest = "co.fs2" %% "fs2-io"   % fs2Version % Test
+  val fs2Core = "co.fs2" %% "fs2-core" % fs2Version
+  val fs2IOTest = "co.fs2" %% "fs2-io" % fs2Version % Test
 
   val Refined = "eu.timepit" %% "refined" % RefinedVersion
 
   val Shapeless = "com.chuusai" %% "shapeless" % ShapelessVersion
 
-  val CatsCore = "org.typelevel"            %% "cats-core"           % CatsVersion
-  val CatsKernel = "org.typelevel"          %% "cats-kernel"         % CatsVersion
-  val MUnitTest = "org.scalameta"           %% "munit"               % munitV           % Test
-  val MUnitCatsEffectTest = "org.typelevel" %% "munit-cats-effect-3" % munitCatsEffectV % Test
+  val CatsCore = "org.typelevel" %% "cats-core" % CatsVersion
+  val CatsKernel = "org.typelevel" %% "cats-kernel" % CatsVersion
+  val MUnitTest = "org.scalameta" %% "munit" % munitV % Test
+  val MUnitCatsEffectTest =
+    "org.typelevel" %% "munit-cats-effect-3" % munitCatsEffectV % Test
   val ScalaCheckEffectMUnit =
     "org.typelevel" %% "scalacheck-effect-munit" % scalacheckEffectV % Test
 

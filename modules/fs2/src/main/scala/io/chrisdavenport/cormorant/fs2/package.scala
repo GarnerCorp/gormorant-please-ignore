@@ -223,7 +223,7 @@ package object fs2 {
     * from a valid `LabelledWrite[A]` implicit instance.
     *
     * @example
-    *   {{{ Stream .emits(list) .through(writeLabelled(Printer.default)) }}}
+    *   {{{Stream .emits(list) .through(writeLabelled(Printer.default))}}}
     */
   def writeLabelled[F[_], A: LabelledWrite](p: Printer): Pipe[F, A, String] =
     s =>
