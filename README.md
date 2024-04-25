@@ -1,4 +1,4 @@
-# gormorant 
+# gormorant
 
 This is a fork of [davenverse/cormorant](https://github.com/davenverse/cormorant)
 

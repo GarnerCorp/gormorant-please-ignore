@@ -1,0 +1,14 @@
+name: Prettier for JS/TypeScript Code
+
+on: push
+
+jobs:
+  prettier:
+    name: Prettier
+    runs-on: ubuntu-latest
+    steps:
+      - name: Prettier
+        uses: garnercorp/build-actions/prettier@main
+        with:
+          prettier-options: "--write"
+          dry: true
