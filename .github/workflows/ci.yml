@@ -5,10 +5,18 @@ on:
     paths-ignore:
       - .github/actions
       - "README.md"
+      - .github/workflows/cl*.yml
+      - .github/workflows/d*.yml
+      - .github/workflows/p*.yml
+      - .github/workflows/s*.yml
   pull_request:
     paths-ignore:
       - .github/actions
       - "README.md"
+      - .github/workflows/cl*.yml
+      - .github/workflows/d*.yml
+      - .github/workflows/p*.yml
+      - .github/workflows/s*.yml
 
 permissions:
   contents: read
